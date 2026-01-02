@@ -107,6 +107,7 @@
         const ChevronDown = (p) => <IconWrapper {...p}><polyline points="6 9 12 15 18 9"/></IconWrapper>;
         const ChevronUp = (p) => <IconWrapper {...p}><polyline points="18 15 12 9 6 15"/></IconWrapper>;
         const Instagram = (p) => <IconWrapper {...p}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></IconWrapper>;
+        const Facebook = (p) => <IconWrapper {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></IconWrapper>;
         const Award = (p) => <IconWrapper {...p}><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></IconWrapper>;
         const Users = (p) => <IconWrapper {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></IconWrapper>;
         // New Icons
@@ -127,6 +128,7 @@
         const PHONE_DISPLAY_2 = "+62 821-9429-5853"; 
         const ADDRESS = "Mutiara Zahrah B/01, Desa Taeng, Kec. Pallangga Kab. Gowa";
         const INSTAGRAM_URL = "https://www.instagram.com/dapoerdandys";
+        const FACEBOOK_URL = "https://www.facebook.com/dapoerdandys.dapoerdandys";
         const GOOGLE_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Mutiara+Zahrah+B%2F01%2C+Desa+Taeng%2C+Kec.+Pallangga+Kab.+Gowa";
 
         // --- HELPER COMPONENTS ---
@@ -158,19 +160,21 @@
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
                     
                     {/* Modal Wrapper */}
-                    <div className="relative z-10 w-full max-w-lg animate-zoom-in">
+                    <div className="relative z-10 w-full max-w-lg animate-zoom-in max-h-[90vh] overflow-y-auto hide-scrollbar">
                         
                         {/* Bunda Chef Animation (Only shows for 'popular' items) */}
                         {item.popular && (
                             <div className="absolute -top-16 -right-2 md:-right-12 z-40 animate-bounce-slow hidden md:block">
                                 <div className="relative transform rotate-12 group">
-                                    {/* Bunda Emoji */}
-                                    <div className="text-[100px] leading-none filter drop-shadow-2xl cursor-pointer hover:scale-110 transition-transform">👩‍🍳</div>
+                                    {/* Using ImageWithFallback for custom animated character */}
+                                    <div className="w-32 h-32 relative filter drop-shadow-2xl cursor-pointer hover:scale-110 transition-transform">
+                                         <ImageWithFallback src="./bunda-animasi.png" alt="Bunda" className="w-full h-full object-contain" />
+                                    </div>
                                     {/* Thumbs Up Emoji */}
-                                    <div className="absolute bottom-0 right-0 text-[60px] leading-none -mb-4 -mr-4 filter drop-shadow-xl">👍</div>
+                                    <div className="absolute bottom-0 right-0 text-[40px] leading-none -mb-2 -mr-2 filter drop-shadow-xl">👍</div>
                                     {/* Speech Bubble */}
-                                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white text-orange-600 font-bold px-4 py-1 rounded-full shadow-lg border-2 border-orange-500 whitespace-nowrap text-sm">
-                                        Pilihan Bunda!
+                                    <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white text-orange-600 font-bold px-4 py-1 rounded-full shadow-lg border-2 border-orange-500 whitespace-nowrap text-xs">
+                                        Rekomendasi Bunda!
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +195,24 @@
                                     {item.spiciness > 0 && <div className="flex text-red-500">{[...Array(item.spiciness)].map((_, i) => <Flame key={i} size={16} className="fill-current" />)}</div>}
                                 </div>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{item.description}</p>
+                                
+                                {/* Tumpeng Pricelist Logic */}
+                                {item.category === "Tumpeng" && (
+                                    <div className="mb-6 space-y-4">
+                                        <h4 className="font-bold text-gray-800 dark:text-white text-lg border-b pb-2 dark:border-gray-700">Daftar Harga Tumpeng</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                                                <ImageWithFallback src="./pricelist-1.jpg" alt="Pricelist 1" className="w-full h-auto object-cover" />
+                                                <p className="text-xs text-center p-2 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Paket Hemat</p>
+                                            </div>
+                                            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                                                <ImageWithFallback src="./pricelist-2.jpg" alt="Pricelist 2" className="w-full h-auto object-cover" />
+                                                <p className="text-xs text-center p-2 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Paket Royal</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <button onClick={() => { addToCart(item); onClose(); }} className="w-full py-4 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg flex items-center justify-center gap-2">
                                     <Plus size={20} /> Tambah ke Pesanan
                                 </button>
@@ -208,7 +230,7 @@
                 name: "Promo Dandy's Cookies",
                 description: "Paket Hemat! Cuma 100K sudah dapat 3 toples cookies lezat buatan Dapoer Dandys.",
                 price: 100000,
-                category: "Snack",
+                category: "Cookies",
                 image: "./cookies.jpg", 
                 popular: true,
                 spiciness: 0,
@@ -252,17 +274,17 @@
                 name: "Kue Dos (Snack Box)",
                 description: "Paket snack box untuk acara. Isi bisa request: Risoles, Kue Sus, Lemper, dll.",
                 price: 15000,
-                category: "Snack",
+                category: "Cookies",
                 image: "./snackbox.jpg",
                 popular: false,
                 spiciness: 0
             },
             {
                 id: 6,
-                name: "Ayam Woku (Lauk)",
+                name: "Ayam Woku (Frozen)",
                 description: "Ayam Woku pedas gurih khas Manado. Bisa pesan per ekor/porsi.",
                 price: 85000,
-                category: "Lauk",
+                category: "Frozen Food",
                 image: "./ayam.jpg",
                 popular: false,
                 spiciness: 3,
@@ -273,7 +295,7 @@
                 name: "Ayam Goreng Kecap",
                 description: "Ayam goreng dengan bumbu kecap manis gurih meresap sampai ke tulang.",
                 price: 85000,
-                category: "Lauk",
+                category: "Frozen Food",
                 image: "./ayam.jpg",
                 popular: false,
                 spiciness: 0
@@ -373,6 +395,7 @@
             </section>
         );
 
+        // --- STATS SECTION IS HERE ---
         const StatsSection = () => (
             <section className="py-20 text-white relative overflow-hidden bg-orange-900 dark:bg-gray-900">
                 <div className="absolute inset-0 bg-orange-900/90 dark:bg-gray-900/90 z-10"></div>
@@ -399,7 +422,7 @@
             const [searchQuery, setSearchQuery] = useState("");
             const [priceFilter, setPriceFilter] = useState("none"); // none, asc, desc
             
-            const categories = ["Semua", "Nasi Box", "Tumpeng", "Bakery", "Snack", "Lauk"];
+            const categories = ["Semua", "Nasi Box", "Tumpeng", "Bakery", "Cookies", "Frozen Food"];
 
             const filteredItems = useMemo(() => {
                 let items = MENU_ITEMS;
@@ -542,7 +565,7 @@
                                 </div>
                                 <div className="flex gap-4">
                                     <div className="flex-shrink-0 w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center text-orange-600 dark:text-orange-400"><CreditCard size={20} /></div>
-                                    <div><h4 className="font-bold text-gray-900 dark:text-white">Pembayaran</h4><p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Bank Mandiri: 152 006 000 6877</p><p className="text-gray-500 dark:text-gray-500 text-xs">a.n. Menda Herawati</p></div>
+                                    <div><h4 className="font-bold text-gray-900 dark:text-white">Pembayaran</h4><p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Bank Mandiri: 152 006 000 6877</p><p className="text-gray-600 dark:text-gray-400 text-sm font-medium">BCA: [No. Rekening]</p><p className="text-gray-600 dark:text-gray-400 text-sm font-medium">BRI: [No. Rekening]</p><p className="text-gray-500 dark:text-gray-500 text-xs">a.n. Menda Herawati</p></div>
                                 </div>
                                 <div className="flex gap-4">
                                     <div className="flex-shrink-0 w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center text-orange-600 dark:text-orange-400"><MapPin size={20} /></div>
@@ -636,7 +659,7 @@
                                 <span className="text-3xl font-bold">Dapoer<span className="text-orange-500">dandys</span></span>
                             </div>
                             <p className="text-gray-400 mb-8 leading-relaxed max-w-sm">Menerima Pesanan: Nasi Box, Kue Dos, Cake Ultah Karakter, Tumpeng, dan lainnya. Rasa istimewa untuk momen berharga Anda.</p>
-                            <div className="text-gray-400 text-sm"><p className="font-bold text-white mb-2">Transfer Pembayaran:</p><p>Mandiri: 152 006 000 6877</p><p>a.n. Menda Herawati</p></div>
+                            <div className="text-gray-400 text-sm"><p className="font-bold text-white mb-2">Transfer Pembayaran:</p><p>Mandiri: 152 006 000 6877</p><p>BCA: [No. Rekening]</p><p>BRI: [No. Rekening]</p><p>a.n. Menda Herawati</p></div>
                         </div>
                         <div className="md:col-span-3 md:col-start-7">
                             <h4 className="text-lg font-bold mb-8 text-white">Hubungi Kami</h4>
@@ -653,7 +676,16 @@
                                         <Instagram className="w-5 h-5 text-orange-500" /><span>@dapoerdandys</span>
                                     </a>
                                 </li>
-                                <li className="flex items-start gap-4"><MapPin className="w-5 h-5 text-orange-500 mt-1" /><span>{ADDRESS}</span></li>
+                                <li className="flex items-center gap-4">
+                                    <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className="flex items-center gap-4 hover:text-orange-300 transition-colors">
+                                        <Facebook className="w-5 h-5 text-orange-500" /><span>@Dapoer Dandys</span>
+                                    </a>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="flex items-start gap-4 hover:text-orange-300 transition-colors group">
+                                        <MapPin className="w-5 h-5 text-orange-500 mt-1" /><span>{ADDRESS}</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div className="md:col-span-3">
