@@ -160,31 +160,35 @@
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
                     
                     {/* Modal Wrapper */}
-                    <div className="relative z-10 w-full max-w-lg animate-zoom-in max-h-[90vh] overflow-y-auto hide-scrollbar">
+                    <div className="relative z-10 w-full max-w-lg animate-zoom-in">
                         
                         {/* Bunda Chef Animation (Only shows for 'popular' items) */}
                         {item.popular && (
-                            <div className="absolute -top-16 -right-2 md:-right-12 z-40 animate-bounce-slow hidden md:block">
+                            <div className="absolute -top-12 -right-4 z-40 animate-bounce-slow pointer-events-none">
                                 <div className="relative transform rotate-12 group">
-                                    {/* Using ImageWithFallback for custom animated character */}
-                                    <div className="w-32 h-32 relative filter drop-shadow-2xl cursor-pointer hover:scale-110 transition-transform">
+                                    {/* Image */}
+                                    <div className="w-24 h-24 md:w-32 md:h-32 relative filter drop-shadow-2xl">
                                          <ImageWithFallback src="./bunda-animasi.png" alt="Bunda" className="w-full h-full object-contain" />
                                     </div>
                                     {/* Thumbs Up Emoji */}
-                                    <div className="absolute bottom-0 right-0 text-[40px] leading-none -mb-2 -mr-2 filter drop-shadow-xl">👍</div>
-                                    {/* Speech Bubble */}
-                                    <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white text-orange-600 font-bold px-4 py-1 rounded-full shadow-lg border-2 border-orange-500 whitespace-nowrap text-xs">
+                                    <div className="absolute bottom-0 right-0 text-4xl md:text-[60px] leading-none -mb-2 -mr-2 filter drop-shadow-xl">👍</div>
+                                    {/* Bubble */}
+                                    <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white text-orange-600 font-bold px-3 py-1 rounded-full shadow-lg border-2 border-orange-500 whitespace-nowrap text-[10px] md:text-xs">
                                         Rekomendasi Bunda!
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        <div className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-2xl">
-                            <button onClick={onClose} className="absolute top-4 right-4 bg-white/80 dark:bg-gray-700 p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors z-20"><X size={20} /></button>
-                            <div className="h-64 bg-gray-200 dark:bg-gray-700">
-                                <ImageWithFallback src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        {/* Card Container - Added max-h and overflow here */}
+                        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-h-[85vh] overflow-y-auto hide-scrollbar flex flex-col">
+                            <div className="relative">
+                                <button onClick={onClose} className="absolute top-4 right-4 bg-white/80 dark:bg-gray-700 p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors z-20"><X size={20} /></button>
+                                <div className="h-64 bg-gray-200 dark:bg-gray-700 shrink-0">
+                                    <ImageWithFallback src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                </div>
                             </div>
+                            
                             <div className="p-8">
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{item.name}</h3>
